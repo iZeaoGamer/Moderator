@@ -8,6 +8,9 @@ commands:
     description: Warn A Player!
     usage: "/warn <player> <reason>"
     permission: rank.moderator
+  report:
+    description: report A Player!
+    usage: "/report <player> <reason>"
 permissions:
   rank.moderator:
     default: op
