@@ -106,7 +106,7 @@
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been Jailed for 1 week!");
 
       }else{
-        $player->sendMessage(TF::RED . "You are warned for " . $reason . " by a Moderator");
+        $player->kick(TextFormat::YELLOW . "You are warned for " . $reason . " by a Moderator", false);
         $sender->sendMessage(TF::GREEN . $player_name . " has been warned!");
         return true;
       }
