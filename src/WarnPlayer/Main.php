@@ -66,7 +66,7 @@
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 week!");
 
       }else{
-        $player->kick(TextFormat::YELLOW . "You are warned for " . $reason . " by a Moderator", false);
+        $player->kick(TF::YELLOW . "You are warned for " . $reason . " by a Moderator", false);
         $sender->sendMessage(TF::GREEN . $player_name . " has been warned!");
         return true;
       }
