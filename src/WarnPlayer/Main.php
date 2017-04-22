@@ -36,32 +36,32 @@
       }
 
       if($file === "2") {
-        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 600 " . $reason);
         $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban " . $player_name . " 600 " . $reason);
+        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 600 " . $reason);
 
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 10 min!");
 
       }
 
       if($file === "3") {
-        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 3600 " . $reason);
         $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban " . $player_name . " 3600 " . $reason);
+        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 3600 " . $reason);
 
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 hour!");
 
       }
 
       if($file === "4") {
-        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 86400 " . $reason);
         $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban " . $player_name . " 86400 " . $reason);
+        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 86400 " . $reason);
 
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 day!");
 
       }
 
       if($file >= "5") {
-        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 604800 " . $reason);
         $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban " . $player_name . " 604800 " . $reason);
+        $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tempban-ip " . $player_name . " 604800 " . $reason);
 
         $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 week!");
 
