@@ -162,10 +162,24 @@
       }
     }
     function onSwitchLevel(EntityTeleportEvent $event) {
+	$origin = $event->getOrigin();
+    	$target = $event->getTarget();
 	$player = $event->getEntity();
-        if($player instanceof Player){    
-     		$player->setGamemode("0");
-    	}
+	if ($player instanceof Player) {   
+		if ($event->getTarget()->getLevel()->getFolderName() === "Lobby"){
+			if ($player->hasPermission("rank.diamond")){
+			       	$player->setGamemode("1");
+			       	$pk = new ContainerSetContentPacket();
+			      	$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+			       	$player->dataPacket($pk);
+			}else{
+				$player->setGamemode($player->getServer()->getDefaultGamemode());
+			}
+		}else{
+			$sender->setGamemode($sender->getServer()->getDefaultGamemode());
+		}	
+	}	
+		
      }
 }	  
 	  
