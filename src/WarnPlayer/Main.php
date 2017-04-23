@@ -151,6 +151,10 @@
       }
     }
     function onSwitchLevel(EntityTeleportEvent $event) {
-      $event->getPlayer()->setGamemode("0");
-    }
-   } 
+	$player = $event->getEntity();
+        if($player instanceof Player){    
+     		$player->setGamemode("0");
+    	}
+     }
+}	  
+	  
