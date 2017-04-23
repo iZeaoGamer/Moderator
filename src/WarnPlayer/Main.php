@@ -99,7 +99,7 @@
         }
       }
       if(strtolower($cmd->getName()) === "spectate") {
-        if($p->getLevel()->getFolderName() === "Lobby"){
+        if($sender->getLevel()->getFolderName() === "Lobby"){
           if(!(isset($args[0]))) {
             $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /spectate <player>");
             return true;
