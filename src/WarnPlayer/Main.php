@@ -105,6 +105,7 @@
             return true;
           }else{
             $sender_name = $sender->getName();
+		  $sender = $p;
             $sender_display_name = $sender->getDisplayName();
             $name = $args[0];
             $player = $this->getServer()->getPlayer($name);
@@ -113,8 +114,19 @@
               $sender->sendMessage(TF::RED . "Player " . $name . " could not be found.");
               return true;
             }else{
-              $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"teleport " . $sender_name . " " . $player_name);
-	      $sender->gamemode = Player::SPECTATOR;
+              $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
+	      $p->gamemode = Player::SPECTATOR;
+                $pk = new SetPlayerGameTypePacket();
+                $pk->gamemode = Player::CREATIVE;
+                $p->dataPacket($pk);
+                $pk = new AdventureSettingsPacket();
+                $pk->flags = 207;
+                $pk->userPermission = 2;
+                $pk->globalPermission = 2;
+                $p->dataPacket($pk);
+                $pk = new ContainerSetContentPacket();
+                $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+                $p->dataPacket($pk);
               return true;
             }
           }
@@ -123,12 +135,12 @@
       if(strtolower($cmd->getName()) === "spectateoff") {
         $sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
         if ($sender->hasPermission("rank.diamond")){
-		        $sender->setGamemode("1");
-		        $pk = new ContainerSetContentPacket();
-		        $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-		        $sender->dataPacket($pk);
-	      }else{
-          $sender->setGamemode($sender->getServer()->getDefaultGamemode());
+		       $sender->setGamemode("1");
+		       $pk = new ContainerSetContentPacket();
+		       $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+		       $sender->dataPacket($pk);
+	}else{
+         	$sender->setGamemode($sender->getServer()->getDefaultGamemode());
         }  
       }  
       if(strtolower($cmd->getName()) === "warn") {
