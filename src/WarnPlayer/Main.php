@@ -105,7 +105,6 @@
             return true;
           }else{
             $sender_name = $sender->getName();
-		  $sender = $p;
             $sender_display_name = $sender->getDisplayName();
             $name = $args[0];
             $player = $this->getServer()->getPlayer($name);
@@ -115,18 +114,18 @@
               return true;
             }else{
               $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
-	      $p->gamemode = Player::SPECTATOR;
-                $pk = new SetPlayerGameTypePacket();
-                $pk->gamemode = Player::CREATIVE;
-                $p->dataPacket($pk);
-                $pk = new AdventureSettingsPacket();
-                $pk->flags = 207;
-                $pk->userPermission = 2;
-                $pk->globalPermission = 2;
-                $p->dataPacket($pk);
-                $pk = new ContainerSetContentPacket();
-                $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-                $p->dataPacket($pk);
+	      $sender->gamemode = Player::SPECTATOR;
+              $pk = new SetPlayerGameTypePacket();
+              $pk->gamemode = Player::CREATIVE;
+              $sender->dataPacket($pk);
+              $pk = new AdventureSettingsPacket();
+              $pk->flags = 207;
+              $pk->userPermission = 2;
+              $pk->globalPermission = 2;
+              $sender->dataPacket($pk);
+              $pk = new ContainerSetContentPacket();
+              $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+              $sender->dataPacket($pk);
               return true;
             }
           }
