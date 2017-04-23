@@ -97,6 +97,39 @@
           }
         }
       }
+      if(strtolower($cmd->getName()) === "spectate") {
+        if($p->getLevel()->getFolderName() === "Lobby"){
+          if(!(isset($args[0]))) {
+            $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /spectate <player>");
+            return true;
+          }else{
+            $sender_name = $sender->getName();
+            $sender_display_name = $sender->getDisplayName();
+            $name = $args[0];
+            $player = $this->getServer()->getPlayer($name);
+            $player_name = $player_>getName();
+            if($player === null) {
+              $sender->sendMessage(TF::RED . "Player " . $name . " could not be found.");
+              return true;
+            }else{
+              $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"teleport " . $sender_name . " " . $player_name);
+              $sender->setGamemode("3");
+              return true;
+            }
+          }
+        }  
+      }
+      if(strtolower($cmd->getName()) === "spectateoff") {
+        $sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
+        if ($sender->hasPermission("rank.diamond")){
+		        $sender->setGamemode("1");
+		        $pk = new ContainerSetContentPacket();
+		        $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+		        $sender->dataPacket($pk);
+	      }else{
+          $sender->setGamemode($sender->getServer()->getDefaultGamemode());
+        }  
+      }  
       if(strtolower($cmd->getName()) === "warn") {
         if(!(isset($args[0]) and isset($args[1]))) {
           $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /warn <player> <reason>");
@@ -116,4 +149,7 @@
         }
       }
     }
-  }
+    function onSwitchLevel(EntityTeleportEvent $event) {
+      $event->getPlayer()->setGamemode("0");
+    }
+   } 
