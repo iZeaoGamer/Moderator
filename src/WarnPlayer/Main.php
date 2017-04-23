@@ -9,6 +9,7 @@
   use pocketmine\command\Command;
   use pocketmine\command\CommandSender;
   use pocketmine\command\ConsoleCommandSender;
+  use pocketmine\event\entity\EntityTeleportEvent;
 
   class Main extends PluginBase implements Listener {
     public function dataPath() {
