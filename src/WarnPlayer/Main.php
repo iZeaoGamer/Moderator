@@ -108,13 +108,13 @@
             $sender_display_name = $sender->getDisplayName();
             $name = $args[0];
             $player = $this->getServer()->getPlayer($name);
-            $player_name = $player_>getName();
+            $player_name = $player->getName();
             if($player === null) {
               $sender->sendMessage(TF::RED . "Player " . $name . " could not be found.");
               return true;
             }else{
               $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"teleport " . $sender_name . " " . $player_name);
-              $sender->setGamemode("3");
+	      $sender->gamemode = Player::SPECTATOR;
               return true;
             }
           }
