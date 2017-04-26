@@ -125,7 +125,7 @@
 					$player = $this->getServer()->getPlayer($name);
 					$player_name = $player->getName();
 					if($player === null) {
-						$sender->sendMessage(TF::RED . "Player " . $player_name . " could not be found.");
+						$sender->sendMessage(TF::RED . "Player could not be found.");
 						return true;
 					}else{
 						$this->spectator->set(strtolower($sender_name));
@@ -145,7 +145,7 @@
 						$sender->dataPacket($pk);
 						$level = $player->getLevel()->getName();
 						foreach ($this->getServer()->getOnlinePlayers()  as $d) {
-							$d->hidePlayer($player);
+							$d->hidePlayer($sender);
 						}
 						return true;
 					}
@@ -168,7 +168,7 @@
 				}else{
 					$sender->setGamemode($sender->getServer()->getDefaultGamemode());
 				} 
-				$sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
+				$sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->getServer()->getLevelByName("Lobby")), "179", "-3");
 		  	}else{
 				$sender->sendMessage(TF::RED . "You are not in spectator mode!");
 			} 
