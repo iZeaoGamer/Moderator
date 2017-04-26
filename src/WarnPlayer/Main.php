@@ -168,6 +168,7 @@
 		  break;
 		  
 	    endswitch;
+	    return true;
 	  } 
       }      
       if(strtolower($cmd->getName()) === "warn") {
