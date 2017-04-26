@@ -143,7 +143,7 @@
 						$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
 						$sender->dataPacket($pk);
 						$level = $player->getLevel()->getName();
-						foreach ($this->getServer()->getLevel($level)->getPlayers();  as $d) {
+						foreach ($this->getServer()->getOnlinePlayers()  as $d) {
 							$d->hidePlayer($p);
 						}
 						return true;
