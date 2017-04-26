@@ -12,6 +12,7 @@
   use pocketmine\event\entity\EntityTeleportEvent;
 
   class Main extends PluginBase implements Listener {
+	  
     public function dataPath() {
       return $this->getDataFolder();
     }
@@ -19,6 +20,7 @@
     public function onEnable() {
       $this->getServer()->getPluginManager()->registerEvents($this, $this);
       if(!(file_exists($this->dataPath()))) {
+	$this->spectator = new Config($this->getDataFolder() . "spectator.txt", Config::ENUM);
         @mkdir($this->dataPath());
         chdir($this->dataPath());
         @mkdir("Players/", 0777, true);
@@ -83,65 +85,91 @@
           $sender_display_name = $sender->getDisplayName();
           $name = $args[0];
           $player = $this->getServer()->getPlayer($name);
+	  $pn = $player->getName();
           if($player === null) {
-            $sender->sendMessage(TF::RED . "Player " . $name . " could not be found.");
+            $sender->sendMessage(TF::RED . "Player " . $pn . " could not be found.");
             return true;
           }else{
             foreach($this->getServer()->getOnlinePlayers() as $p) {
               if($p->hasPermission(rank.moderator)) {
-                $p->sendMessage(TF::YELLOW . $sender_name . " reported " . $name . " for using hacks/mods!");
+                $p->sendMessage(TF::YELLOW . $sender_name . " reported " . $pn . " for teaming / hacking!");
               }
             }
-            $player->sendMessage(TF::YELLOW . "You are reported for using hacks/mods!");
-            $sender->sendMessage(TF::GREEN . $name . " has been reported!");
+            $player->sendMessage(TF::YELLOW . "You are reported for teaming / hacking!");
+            $sender->sendMessage(TF::GREEN . $pn . " has been reported!");
             return true;
           }
         }
       }
       if(strtolower($cmd->getName()) === "spectate") {
-        if($sender->getLevel()->getFolderName() === "Lobby"){
           if(!(isset($args[0]))) {
-            $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /spectate <player>");
+            $sender->sendMessage(TF::RED . "/spectate on <player>");
+	    $sender->sendMessage(TF::RED . "/spectate off");
             return true;
           }else{
-            $sender_name = $sender->getName();
-            $sender_display_name = $sender->getDisplayName();
-            $name = $args[0];
-            $player = $this->getServer()->getPlayer($name);
-            $player_name = $player->getName();
-            if($player === null) {
-              $sender->sendMessage(TF::RED . "Player " . $name . " could not be found.");
-              return true;
-            }else{
-              $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
-	      $sender->gamemode = Player::SPECTATOR;
-              $pk = new SetPlayerGameTypePacket();
-              $pk->gamemode = Player::CREATIVE;
-              $sender->dataPacket($pk);
-              $pk = new AdventureSettingsPacket();
-              $pk->flags = 207;
-              $pk->userPermission = 2;
-              $pk->globalPermission = 2;
-              $sender->dataPacket($pk);
-              $pk = new ContainerSetContentPacket();
-              $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-              $sender->dataPacket($pk);
-              return true;
-            }
-          }
-        }  
-      }
-      if(strtolower($cmd->getName()) === "spectateoff") {
-        $sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
-        if ($sender->hasPermission("rank.diamond")){
-		       $sender->setGamemode("1");
-		       $pk = new ContainerSetContentPacket();
-		       $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-		       $sender->dataPacket($pk);
-	}else{
-         	$sender->setGamemode($sender->getServer()->getDefaultGamemode());
-        }  
-      }  
+	    switch (strtolower(array_shift($args[0]))):
+		  case 'on':
+		  	if($sender->getLevel()->getFolderName() === "Lobby"){
+				if(!(isset($args[1]))) {
+					$sender->sendMessage(TF::RED . "/spectate on <player>");
+				}else{	
+					$sender_name = $sender->getName();
+					$name = $args[1];
+					$player = $this->getServer()->getPlayer($name);
+					$player_name = $player->getName();
+					if($player === null) {
+						$sender->sendMessage(TF::RED . "Player " . $player_name . " could not be found.");
+						return true;
+					}else{
+						$this->spectator->set(strtolower($player_name));
+						$this->spectator->save();
+						$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
+						$sender->gamemode = Player::SPECTATOR;
+						$pk = new SetPlayerGameTypePacket();
+						$pk->gamemode = Player::CREATIVE;
+						$sender->dataPacket($pk);
+						$pk = new AdventureSettingsPacket();
+						$pk->flags = 207;
+						$pk->userPermission = 2;
+						$pk->globalPermission = 2;
+						$sender->dataPacket($pk);
+						$pk = new ContainerSetContentPacket();
+						$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+						$sender->dataPacket($pk);
+						$level = $player->getLevel()->getName();
+						foreach ($level->getPlayers()  as $d) {
+							$d->hidePlayer($p);
+						}
+						return true;
+					}
+				}	
+			}else{
+				$sender->sendMessage(TF::RED . "You are not in the Lobby!");
+			}	
+		  break;
+		  
+		  case 'off':;
+		  	if ($this->spectator->exists($sender->getName())){
+				$this->spectator->remove(strtolower($sender->getName()));
+                                $this->spectator->save();
+				$sender->gamemode = 4;//Just to make sure setGamemode() won't return false if the gm is the same
+				if ($sender->hasPermission("rank.diamond")){
+				       	$sender->setGamemode("1");
+				       	$pk = new ContainerSetContentPacket();
+				       	$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+				       	$sender->dataPacket($pk);
+				}else{
+					$sender->setGamemode($sender->getServer()->getDefaultGamemode());
+				} 
+				$sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
+		  	}else{
+				$sender->sendMessage(TF::RED . "You are not in spectator mode!")
+			} 
+		  break;
+		  
+	    endswitch;
+	  } 
+      }      
       if(strtolower($cmd->getName()) === "warn") {
         if(!(isset($args[0]) and isset($args[1]))) {
           $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /warn <player> <reason>");
@@ -161,13 +189,7 @@
         }
       }
     }
-    function onSwitchLevel(EntityTeleportEvent $event) {
-	$origin = $event->getOrigin();
-    	$target = $event->getTarget();
-	$player = $event->getEntity();
-	if ($player instanceof Player) {   
-		if ($event->getTarget()->getLevel()->getFolderName() === "Lobby"){
-			if ($player->hasPermission("rank.diamond")){
+    public function onInteract(PlayerInteractEvent $ev){
 			       	$player->setGamemode("1");
 			       	$pk = new ContainerSetContentPacket();
 			      	$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
@@ -179,7 +201,7 @@
 			$sender->setGamemode($sender->getServer()->getDefaultGamemode());
 		}	
 	}	
-		
+	    
      }
 }	  
 	  
