@@ -14,6 +14,7 @@
   use pocketmine\network\protocol\ContainerSetContentPacket;
   use pocketmine\network\protocol\SetPlayerGameTypePacket;
   use pocketmine\network\protocol\AdventureSettingsPacket;
+  use pocketmine\level\Position;
 
   class Main extends PluginBase implements Listener {
 	  
@@ -127,7 +128,7 @@
 						$sender->sendMessage(TF::RED . "Player " . $player_name . " could not be found.");
 						return true;
 					}else{
-						$this->spectator->set(strtolower($player_name));
+						$this->spectator->set(strtolower($sender_name));
 						$this->spectator->save();
 						$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
 						$sender->gamemode = Player::SPECTATOR;
@@ -144,7 +145,7 @@
 						$sender->dataPacket($pk);
 						$level = $player->getLevel()->getName();
 						foreach ($this->getServer()->getOnlinePlayers()  as $d) {
-							$d->hidePlayer($p);
+							$d->hidePlayer($player);
 						}
 						return true;
 					}
