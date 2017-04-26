@@ -98,7 +98,7 @@
             return true;
           }else{
             foreach($this->getServer()->getOnlinePlayers() as $p) {
-              if($p->hasPermission(rank.moderator)) {
+              if($p->hasPermission("rank.moderator")) {
                 $p->sendMessage(TF::YELLOW . $sender_name . " reported " . $pn . " for teaming / hacking!");
               }
             }
