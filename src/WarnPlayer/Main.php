@@ -107,7 +107,7 @@
 	    $sender->sendMessage(TF::RED . "/spectate off");
             return true;
           }else{
-	    switch (strtolower(array_shift($args[0]))):
+	    switch (strtolower($args[0])):
 		  case 'on':
 		  	if($sender->getLevel()->getFolderName() === "Lobby"){
 				if(!(isset($args[1]))) {
