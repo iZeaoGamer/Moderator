@@ -19,8 +19,8 @@
 
     public function onEnable() {
       $this->getServer()->getPluginManager()->registerEvents($this, $this);
+      $this->spectator = new Config($this->getDataFolder() . "spectator.txt", Config::ENUM);
       if(!(file_exists($this->dataPath()))) {
-	$this->spectator = new Config($this->getDataFolder() . "spectator.txt", Config::ENUM);
         @mkdir($this->dataPath());
         chdir($this->dataPath());
         @mkdir("Players/", 0777, true);
