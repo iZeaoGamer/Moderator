@@ -9,7 +9,7 @@
   use pocketmine\command\Command;
   use pocketmine\command\CommandSender;
   use pocketmine\command\ConsoleCommandSender;
-  use pocketmine\event\entity\EntityTeleportEvent;
+  use pocketmine\event\player\PlayerInteractEvent;
 
   class Main extends PluginBase implements Listener {
 	  
