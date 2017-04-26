@@ -6,15 +6,12 @@ main: WarnPlayer\Main
 commands:
   warn:
     description: Warn A Player!
-    usage: "/warn <player> <reason>"
     permission: rank.moderator
   spectate:
     description: Spectate a player!
-    usage: "/spectate <player>"
     permission: rank.moderator    
   report:
     description: report A Player!
-    usage: "/report <player>"
 permissions:
   rank.moderator:
     default: op
