@@ -190,7 +190,9 @@
       }
     }
     public function onInteract(PlayerInteractEvent $ev){
-	    // todo
+	    if ($this->spectator->exists($ev->getPlayer()->getName())){
+	    	$ev->setCancelled();
+	    }    
     }
 }	  
 	  
