@@ -168,6 +168,9 @@
 				}else{
 					$sender->setGamemode($sender->getServer()->getDefaultGamemode());
 				} 
+				foreach ($this->getServer()->getOnlinePlayers()  as $d) {
+					$d->showPlayer($sender);
+				}
 				$sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->getServer()->getLevelByName("Lobby")), "179", "-3");
 		  	}else{
 				$sender->sendMessage(TF::RED . "You are not in spectator mode!");
