@@ -10,8 +10,11 @@
   use pocketmine\command\CommandSender;
   use pocketmine\command\ConsoleCommandSender;
   use pocketmine\event\player\PlayerInteractEvent;
+  use pocketmine\utils\Config;
 
   class Main extends PluginBase implements Listener {
+	  
+    public $spectator;
 	  
     public function dataPath() {
       return $this->getDataFolder();
@@ -19,7 +22,7 @@
 
     public function onEnable() {
       $this->getServer()->getPluginManager()->registerEvents($this, $this);
-      $this->spectator = new Config($this->getDataFolder() . "spectator.txt", Config::ENUM);
+      $this->spectator = new Config($this->dataPath() . "spectator.txt", Config::ENUM);
       if(!(file_exists($this->dataPath()))) {
         @mkdir($this->dataPath());
         chdir($this->dataPath());
