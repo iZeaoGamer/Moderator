@@ -11,10 +11,6 @@ commands:
   spectate:
     description: Spectate a player!
     usage: "/spectate <player>"
-    permission: rank.moderator  
-  spectateoff:
-    description: Spectate a player!
-    usage: "/spectateoff"
     permission: rank.moderator    
   report:
     description: report A Player!
