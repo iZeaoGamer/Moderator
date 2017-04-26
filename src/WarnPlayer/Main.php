@@ -163,7 +163,7 @@
 				} 
 				$sender->teleport(new Position("-0.491200", "77.000000", "9.780400", $this->pg->getServer()->getLevelByName("Lobby")), "179", "-3");
 		  	}else{
-				$sender->sendMessage(TF::RED . "You are not in spectator mode!")
+				$sender->sendMessage(TF::RED . "You are not in spectator mode!");
 			} 
 		  break;
 		  
@@ -190,18 +190,7 @@
       }
     }
     public function onInteract(PlayerInteractEvent $ev){
-			       	$player->setGamemode("1");
-			       	$pk = new ContainerSetContentPacket();
-			      	$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-			       	$player->dataPacket($pk);
-			}else{
-				$player->setGamemode($player->getServer()->getDefaultGamemode());
-			}
-		}else{
-			$sender->setGamemode($sender->getServer()->getDefaultGamemode());
-		}	
-	}	
-	    
-     }
+	    // todo
+    }
 }	  
 	  
