@@ -117,42 +117,38 @@
 	    switch (strtolower($args[0])):
 		  case 'on':
 		  	if($sender->getLevel()->getFolderName() === "Lobby"){
-				if ($this->spectator->exists($sender->getName())){
-					if(!(isset($args[1]))) {
-						$sender->sendMessage(TF::RED . "/spectate on <player>");
-					}else{	
-						$sender_name = $sender->getName();
-						$name = $args[1];
-						$player = $this->getServer()->getPlayer($name);
-						if($player === null) {
-							$sender->sendMessage(TF::RED . "Player could not be found.");
-							return true;
-						}else{
-							$player_name = $player->getName();
-							$this->spectator->set(strtolower($sender_name));
-							$this->spectator->save();
-							$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
-							$sender->gamemode = Player::SPECTATOR;
-							$pk = new SetPlayerGameTypePacket();
-							$pk->gamemode = Player::CREATIVE;
-							$sender->dataPacket($pk);
-							$pk = new AdventureSettingsPacket();
-							$pk->flags = 207;
-							$pk->userPermission = 2;
-							$pk->globalPermission = 2;
-							$sender->dataPacket($pk);
-							$pk = new ContainerSetContentPacket();
-							$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-							$sender->dataPacket($pk);
-							$level = $player->getLevel()->getName();
-							foreach ($this->getServer()->getOnlinePlayers()  as $d) {
-								$d->hidePlayer($sender);
-							}
-							return true;
-						}
-					}
+				if(!(isset($args[1]))) {
+					$sender->sendMessage(TF::RED . "/spectate on <player>");
 				}else{	
-					$sender->sendMessage(TF::RED . "You are already spectating a player!");
+					$sender_name = $sender->getName();
+					$name = $args[1];
+					$player = $this->getServer()->getPlayer($name);
+					$player_name = $player->getName();
+					if($player === null) {
+						$sender->sendMessage(TF::RED . "Player could not be found.");
+						return true;
+					}else{
+						$this->spectator->set(strtolower($sender_name));
+						$this->spectator->save();
+						$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"tp " . $sender_name . " " . $player_name);
+						$sender->gamemode = Player::SPECTATOR;
+						$pk = new SetPlayerGameTypePacket();
+						$pk->gamemode = Player::CREATIVE;
+						$sender->dataPacket($pk);
+						$pk = new AdventureSettingsPacket();
+						$pk->flags = 207;
+						$pk->userPermission = 2;
+						$pk->globalPermission = 2;
+						$sender->dataPacket($pk);
+						$pk = new ContainerSetContentPacket();
+						$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+						$sender->dataPacket($pk);
+						$level = $player->getLevel()->getName();
+						foreach ($this->getServer()->getOnlinePlayers()  as $d) {
+							$d->hidePlayer($sender);
+						}
+						return true;
+					}
 				}	
 			}else{
 				$sender->sendMessage(TF::RED . "You are not in the Lobby!");
