@@ -1,8 +1,8 @@
-name: WarnPlayer
+name: Moderator
 version: 1.0.0
-api: [3.0.0]
-author: MCrafters
-main: WarnPlayer\Main
+api: [3.0.0-ALPHA5]
+author: Driesboy
+main: Driesboy\Main
 commands:
   warn:
     description: Warn A Player!
