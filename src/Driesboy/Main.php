@@ -11,9 +11,9 @@
   use pocketmine\command\ConsoleCommandSender;
   use pocketmine\event\player\PlayerInteractEvent;
   use pocketmine\utils\Config;
-  use pocketmine\network\protocol\ContainerSetContentPacket;
-  use pocketmine\network\protocol\SetPlayerGameTypePacket;
-  use pocketmine\network\protocol\AdventureSettingsPacket;
+  use pocketmine\network\mcpe\protocol\ContainerSetContentPacket;
+  use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+  use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
   use pocketmine\level\Position;
 
   class Main extends PluginBase implements Listener {
