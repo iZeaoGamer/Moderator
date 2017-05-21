@@ -1,6 +1,6 @@
 <?php
 
-  namespace WarnPlayer;
+  namespace Driesboy;
 
   use pocketmine\plugin\PluginBase;
   use pocketmine\event\Listener;
