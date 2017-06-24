@@ -5,13 +5,10 @@ author: Driesboy
 main: Driesboy\Main
 commands:
   warn:
-    description: Warn A Player!
     permission: rank.moderator
-  spectate:
-    description: Spectate a player!
-    permission: rank.moderator    
+    description: Warn a player that is breaking the rules!
   report:
-    description: report A Player!
+    description: Report a player that is breaking the rules!
 permissions:
   rank.moderator:
     default: op
