@@ -31,13 +31,14 @@ class Main extends PluginBase implements Listener {
   public function warn(Player $player, Player $sender , $reason){
 
     $player_name = $player->getName();
-    $file = file_get_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt");
-    file_put_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt", $file + 1);
 
     if(!(file_exists($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt"))) {
       touch($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt");
-      file_put_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt", "0");
+      file_put_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt", "1");
+    }else{
+      file_put_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt", $file + 1);
     }
+    $file = file_get_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt");
 
     if($file === "2") {
       $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"nban " . $player_name . " 1hour " . $reason);
