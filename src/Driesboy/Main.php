@@ -10,10 +10,8 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\utils\Config;
-use pocketmine\network\mcpe\protocol\ContainerSetContentPacket;
-use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
-use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
 use pocketmine\level\Position;
 
 class Main extends PluginBase implements Listener {
@@ -28,6 +26,13 @@ class Main extends PluginBase implements Listener {
     }
   }
 
+
+  public function OnJoin(PlayerJoinEvent $event){
+    if ($event->getPlayer()->hasPermission("rank.moderator")){
+      $event->getPlayer()->sendMessage("§6Check /staffinfo for alot of information about commands and updates");
+    }
+  }
+
   public function warn(Player $player, Player $sender , $reason){
 
     $player_name = $player->getName();
@@ -39,9 +44,9 @@ class Main extends PluginBase implements Listener {
       file_put_contents($this->getDataFolder() . "Players/" . strtolower($player_name) . ".txt", $file + 1);
     }
     if($file === "2") {
-      $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"nban " . $player_name . " 1hour " . $reason);
+      $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"nban " . $player_name . " 1day " . $reason);
 
-      $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 hour!");
+      $sender->sendMessage(TF::GREEN . "" . $player_name . " has been BANNED for 1 day!");
     }
     if($file >= "3") {
       $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"nban " . $player_name . " 1week " . $reason);
@@ -97,6 +102,41 @@ class Main extends PluginBase implements Listener {
           $reason = implode(" ", $args);
           $this->warn($player, $sender, $reason);
         }
+      }
+    }
+    if(strtolower($cmd->getName()) === "forceban") {
+      if(!(isset($args[0]) and isset($args[1]))) {
+        $sender->sendMessage(TF::RED . "Error: not enough args. Usage: /forceban <player> <reason>");
+        return true;
+      }else{
+        $sender_name = $sender->getName();
+        $sender_display_name = $sender->getDisplayName();
+        $name = $args[0];
+        $player = $this->getServer()->getPlayer($name);
+        $pn = $player->getName();
+        if($player === null) {
+          $sender->sendMessage(TF::RED . "Player " . $pn . " could not be found.");
+          return true;
+        }else{
+          $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"nban " . $player_name . " 2week " . $reason);
+          $sender->sendMessage(TF::GREEN . "" . $pn . " has been BANNED for 2 weeks!");
+          return true;
+        }
+      }
+    }
+    if(strtolower($cmd->getName()) === "staffinfo") {
+      if ($sender->hasPermission("rank.moderator")){
+        $sender->sendMessage("§6/warn has been added to all servers");
+        $sender->sendMessage("§6You can reset plots that are breaking the rules");
+        $sender->sendMessage("§6No builds on a plot, Only fire, .....");
+        $sender->sendMessage("§6Teaming in skywars is not allowd /warn!");
+      }
+      if ($sender->hasPermission("rank.srmoderator")){
+        $sender->sendMessage("§6You can build on all plots and roads");
+        $sender->sendMessage("§6/forceban has been added to all servers");
+      }
+      if ($sender->hasPermission("rank.admin")){
+        $sender->sendMessage("Admin ranks are coming soon");
       }
     }
   }

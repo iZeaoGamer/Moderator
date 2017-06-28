@@ -7,8 +7,16 @@ commands:
   warn:
     permission: rank.moderator
     description: Warn a player that is breaking the rules!
+  staffinfo:
+    permission: rank.moderator
+    description: Info page for our staffs!
+  forceban:
+    permission: rank.srmoderator
+    description: Ban a player that is breaking the rules!
   report:
     description: Report a player that is breaking the rules!
 permissions:
   rank.moderator:
+    default: op
+  rank.srmoderator:
     default: op
