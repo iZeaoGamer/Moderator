@@ -127,16 +127,16 @@ class Main extends PluginBase implements Listener {
     if(strtolower($cmd->getName()) === "staffinfo") {
       if ($sender->hasPermission("rank.moderator")){
         $sender->sendMessage("§6/warn has been added to all servers");
-        $sender->sendMessage("§6You can reset plots that are breaking the rules");
-        $sender->sendMessage("§6No builds on a plot, Only fire, .....");
-        $sender->sendMessage("§6Teaming in skywars is not allowd /warn!");
+        $sender->sendMessage("§6Do not abuse your power, such as: Banning / kicking players for no reason, tping them to you for no reason, ect.");
+        $sender->sendMessage("§6Do not swear.");
+        $sender->sendMessage("§6Abusing your rank is not allowed.");
       }
       if ($sender->hasPermission("rank.srmoderator")){
         $sender->sendMessage("§6You can build on all plots and roads");
         $sender->sendMessage("§6/forceban has been added to all servers");
       }
       if ($sender->hasPermission("rank.admin")){
-        $sender->sendMessage("Admin ranks are coming soon");
+        $sender->sendMessage("The administrators get: Op.");
       }
     }
   }
